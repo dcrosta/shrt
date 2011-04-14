@@ -8,5 +8,5 @@
 {% block body %}
 <h1>shrt</h1>
 
-<p>Drag this link <a id="bookmarklet" href="javascript:void(location.href='{{request.url_root.rstrip('/')}}{{url_for('new')}}?url='+encodeURIComponent(location.href))">&rarr;&larr;</a> to your bookmarks bar. Enjoy!</p>
+<p>Drag this link <a id="bookmarklet" href="javascript:void(location.href='{{url_for('new', _external=True)}}?url='+encodeURIComponent(location.href))">&rarr;&larr;</a> to your bookmarks bar. Enjoy!</p>
 {% endblock %}
