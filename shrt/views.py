@@ -65,7 +65,7 @@ def new():
     shorturl = flask.url_for('redirect', shortened=s, _external=True)
     return render_template('new.html', shorturl=shorturl)
 
-@app.route('/r/<shortened>')
+@app.route('/<shortened>')
 def redirect(shortened):
     url = g.db.shortened.find_one({'_id': shortened}, {'url':1})['url']
     return flask.redirect(url, code=301)
