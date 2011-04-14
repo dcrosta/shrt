@@ -62,7 +62,7 @@ def new():
         s = shortstr(nextid)
         g.db.shortened.save({'_id':s, 'url': url})
 
-    shorturl = request.url_root.rstrip('/') + flask.url_for('redirect', shortened=s)
+    shorturl = flask.url_for('redirect', shortened=s, _external=True)
     return render_template('new.html', shorturl=shorturl)
 
 @app.route('/r/<shortened>')
