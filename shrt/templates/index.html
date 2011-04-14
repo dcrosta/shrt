@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block css %}
+      a#bookmarklet { padding:0px 7px; border:1px solid white; }
+      a#bookmarklet:hover {  border:1px solid #06c; text-decoration:none; }
+{% endblock %}
+
+{% block body %}
+<h1>shrt</h1>
+
+<p>Drag this link <a id="bookmarklet" href="javascript:void(location.href='{{request.url_root.rstrip('/')}}{{url_for('new')}}?url='+encodeURIComponent(location.href))">&rarr;&larr;</a> to your bookmarks bar. Enjoy!</p>
+{% endblock %}

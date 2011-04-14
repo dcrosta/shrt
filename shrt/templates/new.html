@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block css %}
+      input[type="text"] { border:none; margin:0px; padding:0px; background:transparent; }
+{% endblock %}
+
+{% block body %}
+<h1>&rarr;&larr;</h1>
+
+<p>&rarr;<input id="s" type="text" value="{{shorturl}}"/>&larr;</p>
+
+<p>Just hit &#8984;-C to copy your short URL.</p>
+{% endblock %}
+
+{% block scripts %}
+{% include 'jquery' %}
+<script type="text/javascript">
+  $(document).ready(function(){$('#s').focus();});
+</script>
+{% endblock %}

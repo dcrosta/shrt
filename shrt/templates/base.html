@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}&rarr;&larr;{% endblock %}</title>
+    <style type="text/css">
+      * { font-family:"Menlo", "Andale Mono", "Consolas", monospace; }
+      h1 { font-size:22px; }
+      p { font-size:13px; }
+      a { text-decoration:none; color:#06c; }
+      a:hover { text-decoration:underline; }
+      {% block css %}{% endblock %}
+    </style>
+  </head>
+  <body>
+    {% block body %}{% endblock %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
