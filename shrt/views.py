@@ -7,32 +7,7 @@ from flask import request
 from flask import g
 
 from shrt import app
-
-digit='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-count=len(digit)
-def shortstr(num, deep=False):
-    """
-    >>> shortstr(0)
-    >>> shortstr(1)
-    'a'
-    >>> shortstr(2)
-    'b'
-    >>> shortstr(62)
-    '9'
-    >>> shortstr(63)
-    'aa'
-    >>> shortstr(64)
-    'ab'
-    >>> shortstr(1923123)
-    'hdrg'
-    """
-    if num <= 0:
-        return None
-    out = []
-    while num:
-        num, mod = divmod(num-1, count)
-        out.append(digit[mod])
-    return ''.join(reversed(out))
+from shrt import db
 
 @app.route('/')
 def index():
@@ -49,27 +24,19 @@ def new():
     if not (url.startswith('http://') or url.startswith('https://')):
         flask.abort(400)
 
-    existing = g.db.shortened.find_one({'url': url})
-    if existing:
-        s = existing['_id']
-    else:
-        # if this fails, we will just 500, which
-        # is all we can do anyway. no need to
-        # check for success or anything, then
-        nextid = g.db.command('findAndModify', 'shortened.last', update={'$inc': {'last': 1}}, new=True)
-        nextid = int(nextid['value']['last'])
+    short, long = db.get_url(long=url)
+    if not short:
+        short, long = db.new_url(long=url)
 
-        s = shortstr(nextid)
-        g.db.shortened.save({'_id':s, 'url': url})
+    return render_template('new.html', short=short)
 
-    return render_template('new.html', short=s)
+@app.route('/<short>')
+def redirect(short):
+    short, long = db.get_url(short=short)
+    return flask.redirect(long, code=301)
 
-@app.route('/<shortened>')
-def redirect(shortened):
-    url = g.db.shortened.find_one({'_id': shortened}, {'url':1})['url']
-    return flask.redirect(url, code=301)
-
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+@app.route('/favicon.ico')
+@app.route('/robots.txt')
+def nothing():
+    flask.abort(404)
 

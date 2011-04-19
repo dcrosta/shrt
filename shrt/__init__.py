@@ -21,13 +21,16 @@ def app_factory(global_config, **settings):
     settings = niceify(settings)
     app.debug = settings.pop('debug', False)
 
-    shrt.db.setup(
-        hostname=settings.pop('mongo_hostname', 'localhost'),
-        username=settings.pop('mongo_username', ''),
-        password=settings.pop('mongo_password', ''),
-        database=settings.pop('mongo_database', 'shrt'),
-        port=settings.pop('mongo_port', 27017),
-    )
+    db_type = settings.pop('db_type')
+    print "using", db_type
+
+    db_kwargs = {}
+    for key in settings.keys():
+        if key.startswith(db_type):
+            value = settings.pop(key)
+            key = key[len(db_type)+1:]
+            db_kwargs[key] = value
+    shrt.db.setup(db_type=db_type, **db_kwargs)
 
     return app
 
