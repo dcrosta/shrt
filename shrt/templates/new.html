@@ -7,7 +7,7 @@
 {% block body %}
 <h1>&rarr;&larr;</h1>
 
-<p>&rarr;<input id="s" type="text" value="{{shorturl}}"/>&larr;</p>
+<p>&rarr;<input id="s" type="text" value="{{url_for('redirect', short=short, _external=True)}}"/>&larr;</p>
 
 <p>Just hit &#8984;-C to copy your short URL.</p>
 {% endblock %}
