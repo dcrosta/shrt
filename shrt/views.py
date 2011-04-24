@@ -13,7 +13,7 @@ from shrt import db
 def index():
     return render_template('index.html')
 
-@app.route('/n')
+@app.route('/_new')
 def new():
     if 'url' not in request.args:
         flask.abort(400)
