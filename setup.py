@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 requires = [
-    'flask == 0.6.1',
-    'pymongo == 1.10.1',
+    'flask',
+    'pymongo',
 ]
 
 setup(name='shrt',
