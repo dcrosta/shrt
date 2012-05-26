@@ -15,13 +15,16 @@ private = join(parent, 'private.plog.cfg')
 if exists(private):
     app.config.from_pyfile(private)
 
+from flask.ext.pymongo import PyMongo
+mongo = PyMongo(app)
+
 import shrt.views
 import shrt.db
 
-db_kwargs = {}
-db_type = app.config.get('DB_TYPE', 'mongo')
-for key, value in app.config.iteritems():
-    if key.startswith(db_type.upper() + '_'):
-        key = key[len(db_type)+1:]
-        db_kwargs[key] = value
-shrt.db.setup(db_type=db_type, **db_kwargs)
+@app.before_first_request
+def db_setup():
+    if not mongo.db.shortened.last.find_one():
+        mongo.db.shortened.last.save({'_id': 'last', 'last': 0})
+
+    mongo.db.shortened.ensure_index('url')
+
