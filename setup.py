@@ -1,19 +1,13 @@
+from distribute_setup import use_setuptools
+use_setuptools('0.6.c11')
+
 from setuptools import setup, find_packages
 
-requires = [
-    'flask',
-    'pymongo',
-]
-
 setup(name='shrt',
-      version='0.1',
+      version='0.2',
       packages=['shrt'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=requires,
-      tests_require=requires,
-      entry_points={
-          'paste.app_factory': ['main=shrt:app_factory'],
-      }
+      install_requires=[l for l in open('requirements.txt', 'r')],
 )
 

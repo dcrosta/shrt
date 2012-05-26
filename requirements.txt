@@ -1,2 +1,3 @@
 Flask
-pymongo
+PyMongo >= 2.2
+Flask-PyMongo
