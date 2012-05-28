@@ -1,5 +1,5 @@
 from distribute_setup import use_setuptools
-use_setuptools('0.6.c11')
+use_setuptools()
 
 from setuptools import setup, find_packages
 
