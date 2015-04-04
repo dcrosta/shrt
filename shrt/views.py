@@ -1,5 +1,6 @@
 import urllib
 import string
+from textwrap import dedent
 
 import flask
 from flask import render_template
@@ -29,6 +30,13 @@ def new():
         short, long = db.new_url(long=url)
 
     return render_template('new.html', short=short)
+
+@app.route('/robots.txt')
+def robots():
+    return dedent("""\
+        User-Agent: *
+        Disallow: /
+        """)
 
 @app.route('/<short>')
 def redirect(short):
