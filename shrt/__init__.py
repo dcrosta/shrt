@@ -15,16 +15,8 @@ private = join(parent, 'private.shrt.cfg')
 if exists(private):
     app.config.from_pyfile(private)
 
-from flask.ext.pymongo import PyMongo
-mongo = PyMongo(app)
+from flask_sqlalchemy import SQLAlchemy
+sqla = SQLAlchemy(app)
 
-import shrt.views
-import shrt.db
-
-@app.before_first_request
-def db_setup():
-    if not mongo.db.shortened.last.find_one():
-        mongo.db.shortened.last.save({'_id': 'last', 'last': 0})
-
-    mongo.db.shortened.ensure_index('url')
-
+# load the views module
+from shrt import views

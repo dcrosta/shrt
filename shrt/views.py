@@ -47,4 +47,3 @@ def redirect(short):
 @app.route('/robots.txt')
 def nothing():
     flask.abort(404)
-
